@@ -101,3 +101,14 @@ CREATE TABLE equipped (
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+
+CREATE VIEW character_items AS 
+	SELECT
+		c.character_id,
+		c.name AS character_name,	
+		i.name AS item_name,
+		i.armor,
+		i.damage
+	FROM characters c
+		INNER JOIN items i;
