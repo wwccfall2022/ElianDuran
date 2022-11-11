@@ -103,7 +103,7 @@ CREATE TABLE equipped (
 );
 
 
-CREATE VIEW character_items AS 
+CREATE OR REPLACE VIEW character_items AS 
 	SELECT
 		c.character_id,
 		c.name AS character_name,	
@@ -111,4 +111,20 @@ CREATE VIEW character_items AS
 		i.armor,
 		i.damage
 	FROM characters c
-		INNER JOIN items i;
+		INNER JOIN inventory inv
+			ON c.character_id = inv.character_id
+		INNER JOIN items i
+			ON inv.item_id = i.item_id
+	UNION
+	SELECT 
+		c.character_id,
+		c.name AS character_name,	
+		i.name AS item_name,
+		i.armor,
+		i.damage
+	FROM characters c
+		INNER JOIN equipped eq
+			ON c.character_id = eq.character_id
+		INNER JOIN items i
+			ON eq.item_id = i.item_id
+		ORDER BY character_id;
