@@ -128,3 +128,13 @@ CREATE OR REPLACE VIEW character_items AS
 		INNER JOIN items i
 			ON eq.item_id = i.item_id
 	ORDER BY character_id ASC, item_name ASC;
+
+
+CREATE OR REPLACE VIEW team_items AS
+	SELECT
+		t.team_id,
+		t.name AS team_name,
+		i.name AS item_name,
+		i.armor, i.damage
+	FROM teams t, items i
+	ORDER BY team_id ASC, item_name ASC;
