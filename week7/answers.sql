@@ -159,3 +159,32 @@ UNION
 		INNER JOIN items i
 			ON eq.item_id = i.item_id
 		ORDER BY team_id, item_name;
+
+
+DELIMITER ;;
+CREATE FUNCTION armor_total(char_id INT UNSIGNED)
+RETURNS INT UNSIGNED
+DETERMINISTIC
+BEGIN
+	DECLARE armor_points_equipped INT UNSIGNED;
+    DECLARE armor_points_cs INT UNSIGNED;
+    
+    SELECT SUM(i.armor) INTO armor_points_equipped
+		FROM characters c
+			INNER JOIN character_stats cs
+				ON c.character_id = cs.character_id
+			INNER JOIN equipped eq
+				ON c.character_id = eq.character_id
+			INNER JOIN items i
+				ON eq.item_id = i.item_id
+	WHERE c.character_id = char_id;
+    
+	SELECT cs.armor INTO armor_points_cs
+		FROM characters c
+			INNER JOIN character_stats cs
+				ON c.character_id = cs.character_id
+	WHERE c.character_id = char_id;
+        
+	return armor_points_equipped + armor_points_cs;
+END;;
+DELIMITER ;
