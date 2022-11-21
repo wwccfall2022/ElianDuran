@@ -197,6 +197,7 @@ BEGIN
     DECLARE attack_damage INT SIGNED;
     DECLARE char_total INT UNSIGNED;
     DECLARE difference INT SIGNED;
+    DECLARE option VARCHAR(30);
     
     -- character armor 
     SELECT armor_total(char_attacked_id) INTO char_armor;
@@ -217,11 +218,11 @@ BEGIN
     
     -- check what happens with item damage
     IF difference <= 0 THEN
-		SELECT 'nothing' INTO attack;
+		SELECT 'nothing' INTO option;
 	ELSEIF difference >= 0 THEN
 		UPDATE character_stats SET health=(char_health - difference) WHERE character_id = char_attacked_id;
 	ELSEIF difference > (char_armor + char_health) THEN
-		SELECT 'deleted' INTO attack;
+		SELECT 'deleted' INTO option;
 	END IF;
     
 END;;
