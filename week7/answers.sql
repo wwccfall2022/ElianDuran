@@ -192,14 +192,14 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE attack(IN char_attacked_id INT UNSIGNED, IN id_item_equipped INT UNSIGNED)
 BEGIN
-    DECLARE char_armor INT SIGNED;
+	DECLARE char_armor INT SIGNED;
     DECLARE char_health INT SIGNED;
-    DECLARE attack_damage INT SIGNED;
+	DECLARE attack_damage INT SIGNED;
     DECLARE char_total INT UNSIGNED;
     DECLARE difference INT SIGNED;
-    DECLARE option VARCHAR(30);
+    DECLARE decision VARCHAR(30); 
     
-    -- character armor 
+	-- character armor 
     SELECT armor_total(char_attacked_id) INTO char_armor;
     
     -- character_health
@@ -218,11 +218,11 @@ BEGIN
     
     -- check what happens with item damage
     IF difference <= 0 THEN
-		SELECT 'nothing' INTO option;
+		SELECT 'nothing' INTO decision;
 	ELSEIF difference >= 0 THEN
 		UPDATE character_stats SET health=(char_health - difference) WHERE character_id = char_attacked_id;
 	ELSEIF difference > (char_armor + char_health) THEN
-		SELECT 'deleted' INTO option;
+		SELECT 'deleted' INTO decision;
 	END IF;
     
 END;;
