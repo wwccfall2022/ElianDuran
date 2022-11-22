@@ -212,8 +212,8 @@ BEGIN
 		ON eq.item_id = i.item_id
     WHERE eq.equipped_id = id_item_equipped INTO attack_damage;
 
-    SET difference = attack_damage - char_armor
-    SET new_char_health = char_health - difference
+    SET difference = attack_damage - char_armor;
+    SET new_char_health = char_health - difference;
     
     -- check what happens with item damage
     IF difference > 0 THEN
