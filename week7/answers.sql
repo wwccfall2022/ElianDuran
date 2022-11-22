@@ -192,12 +192,10 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE attack(IN char_attacked_id INT UNSIGNED, IN id_item_equipped INT UNSIGNED)
 BEGIN
-	DECLARE char_armor INT SIGNED;
+    DECLARE char_armor INT SIGNED;
     DECLARE char_health INT SIGNED;
-	DECLARE attack_damage INT SIGNED;
-    DECLARE char_total INT SIGNED;
+    DECLARE attack_damage INT SIGNED;
     DECLARE difference INT SIGNED;
-    DECLARE decision VARCHAR(30); 
     
 	-- character armor 
     SELECT armor_total(char_attacked_id) INTO char_armor;
@@ -205,25 +203,22 @@ BEGIN
     -- character_health
     SELECT cs.health FROM character_stats cs WHERE character_id = char_attacked_id INTO char_health;
     
-    SELECT char_armor + char_health INTO char_total;
     
     -- item damage and attack damage - character armor
-	SELECT i.damage
-		FROM equipped eq
-			INNER JOIN items i
-				ON eq.item_id = i.item_id
-	WHERE eq.equipped_id = id_item_equipped INTO attack_damage;
-    
-	SELECT attack_damage - char_armor INTO difference;
+    SELECT i.damage
+        FROM equipped eq
+	    INNER JOIN items i
+		ON eq.item_id = i.item_id
+    WHERE eq.equipped_id = id_item_equipped INTO attack_damage;
+
+    SET difference = attack_damage - char_armor
     
     -- check what happens with item damage
-    IF difference <= 0 THEN
-		SELECT 'nothing' INTO decision;
-	ELSEIF difference >= 0 THEN
-		UPDATE character_stats SET health=(char_health - difference) WHERE character_id = char_attacked_id;
-	ELSEIF difference > char_total THEN
-		DELETE FROM characters WHERE character_id=char_attacked_id;
-	END IF;
+    IF difference > 0 THEN
+	    UPDATE character_stats SET health=(char_health - difference) WHERE character_id = char_attacked_id;
+    ELSEIF difference > char_health THEN
+	    DELETE FROM characters WHERE character_id = char_attacked_id;
+    END IF;
     
 END;;
 DELIMITER ;
