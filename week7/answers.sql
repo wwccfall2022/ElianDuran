@@ -192,9 +192,9 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE attack(IN char_attacked_id INT UNSIGNED, IN id_item_equipped INT UNSIGNED)
 BEGIN
-    DECLARE char_armor INT SIGNED;
+    	DECLARE char_armor INT SIGNED;
     DECLARE char_health INT SIGNED;
-    DECLARE attack_damage INT SIGNED;
+	DECLARE attack_damage INT SIGNED;
     DECLARE difference INT SIGNED;
     
 	-- character armor 
@@ -216,7 +216,7 @@ BEGIN
     -- check what happens with item damage
     IF difference > 0 THEN
 	    UPDATE character_stats SET health=(char_health - difference) WHERE character_id = char_attacked_id;
-    ELSEIF difference > char_health THEN
+    IF difference >= char_health THEN
 	    DELETE FROM characters WHERE character_id = char_attacked_id;
     END IF;
     
