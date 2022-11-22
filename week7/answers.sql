@@ -196,6 +196,7 @@ BEGIN
     DECLARE char_health INT SIGNED;
 	DECLARE attack_damage INT SIGNED;
     DECLARE difference INT SIGNED;
+    DECLARE new_char_health INT SIGNED;
     
 	-- character armor 
     SELECT armor_total(char_attacked_id) INTO char_armor;
@@ -212,11 +213,12 @@ BEGIN
     WHERE eq.equipped_id = id_item_equipped INTO attack_damage;
 
     SET difference = attack_damage - char_armor
+    SET new_char_health = char_health - difference
     
     -- check what happens with item damage
     IF difference > 0 THEN
-	    UPDATE character_stats SET health=char_health - difference WHERE character_id = char_attacked_id;
-    IF difference >= char_health THEN
+	    UPDATE character_stats SET health=new_char_health WHERE character_id = char_attacked_id;
+    ELSEIF difference >= char_health THEN
 	    DELETE FROM characters WHERE character_id = char_attacked_id;
     END IF;
     
