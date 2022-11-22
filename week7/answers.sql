@@ -222,7 +222,7 @@ BEGIN
 	ELSEIF difference >= 0 THEN
 		UPDATE character_stats SET health=(char_health - difference) WHERE character_id = char_attacked_id;
 	ELSEIF difference > (char_armor + char_health) THEN
-		SELECT 'deleted' INTO decision;
+		DELETE FROM characters WHERE character_id=char_attacked_id;
 	END IF;
     
 END;;
