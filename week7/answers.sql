@@ -215,7 +215,7 @@ BEGIN
     
     -- check what happens with item damage
     IF difference > 0 THEN
-	    UPDATE character_stats SET health=(char_health - difference) WHERE character_id = char_attacked_id;
+	    UPDATE character_stats SET health=char_health - difference WHERE character_id = char_attacked_id;
     IF difference >= char_health THEN
 	    DELETE FROM characters WHERE character_id = char_attacked_id;
     END IF;
