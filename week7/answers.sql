@@ -202,7 +202,7 @@ BEGIN
     SELECT armor_total(char_attacked_id) INTO char_armor;
     
     -- character_health
-    SELECT cs.health FROM character_stats cs WHERE character_id = char_attacked_id INTO char_health;
+    SELECT health FROM character_stats WHERE character_id = char_attacked_id INTO char_health;
     
     
     -- item damage and attack damage - character armor
