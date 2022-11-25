@@ -234,16 +234,16 @@ BEGIN
     DECLARE char_equip INT UNSIGNED;
     DECLARE item_equip INT UNSIGNED;
     
-    SELECT character_id FROM inventory WHERE inventory_id = item_inventory_id INTO char_id;
+    SELECT character_id INTO char_id FROM inventory WHERE inventory_id = item_inventory_id;
     
-    SELECT item_id FROM inventory WHERE inventory_id = item_inventory_id INTO inventory_item;
-    
-    SELECT character_id FROM characters WHERE character_id = char_id INTO char_equip;
-    
-    SELECT item_id FROM items WHERE item_id = inventory_item INTO item_equip;
+    SELECT item_id INTO inventory_item FROM inventory WHERE inventory_id = item_inventory_id;
+ 
+    SELECT character_id INTO char_equip FROM characters WHERE character_id = char_id;
+ 
+    SELECT item_id INTO item_equip FROM items WHERE item_id = inventory_item;
     
     DELETE FROM inventory WHERE inventory_id = item_inventory_id;
     
-    INSERT INTO equipped (char_id, item_id) VALUES (char_equip, item_equip);
+    INSERT INTO equipped (character_id, item_id) VALUES (char_equip, item_equip);
 END;;
 DELIMITER ;
