@@ -242,6 +242,8 @@ BEGIN
     
     SELECT item_id FROM items WHERE item_id = inventory_item INTO item_equip;
     
+    DELETE FROM inventory WHERE inventory_id = item_inventory_id;
+    
     INSERT INTO equipped (char_id, item_id) VALUES (char_equip, item_equip);
 END;;
 DELIMITER ;
