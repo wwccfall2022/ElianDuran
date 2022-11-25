@@ -203,15 +203,15 @@ BEGIN
     SELECT armor_total(char_attacked_id) INTO char_armor;
     
     -- character_health
-    SELECT health FROM character_stats WHERE character_id = char_attacked_id INTO char_health;
+    SELECT health INTO char_health FROM character_stats WHERE character_id = char_attacked_id;
     
     
     -- item damage and attack damage - character armor
-    SELECT i.damage
+    SELECT i.damage INTO attack_damage
         FROM equipped eq
 	    INNER JOIN items i
 		ON eq.item_id = i.item_id
-    WHERE eq.equipped_id = id_item_equipped INTO attack_damage;
+    WHERE eq.equipped_id = id_item_equipped;
 
     SET difference = attack_damage - char_armor;
     SET new_char_health = char_health - difference;
