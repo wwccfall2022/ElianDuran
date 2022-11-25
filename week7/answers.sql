@@ -258,7 +258,7 @@ BEGIN
 
     SELECT character_id INTO char_id FROM equipped WHERE equipped_id = unequipped_id;
 
-    SELECT item_id INTO iventory_item FROM equipped WHERE equipped_id = unequipped_id;
+    SELECT item_id INTO inventory_item FROM equipped WHERE equipped_id = unequipped_id;
     
     SELECT character_id INTO char_unequip FROM characters WHERE character_id = char_id;
     
