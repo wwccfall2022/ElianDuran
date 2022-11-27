@@ -194,24 +194,24 @@ DELIMITER ;;
 CREATE PROCEDURE attack(IN char_attacked_id INT UNSIGNED, IN id_item_equipped INT UNSIGNED)
 BEGIN
     	DECLARE char_armor INT SIGNED;
-    DECLARE char_health INT UNSIGNED;
+    DECLARE char_health INT;
 	DECLARE attack_damage INT SIGNED;
-    DECLARE difference INT UNSIGNED;
-    DECLARE new_char_health INT UNSIGNED;
+    DECLARE difference INT;
+    DECLARE new_char_health INT;
     
 	-- character armor 
     SELECT armor_total(char_attacked_id) INTO char_armor;
     
     -- character_health
-    SELECT health INTO char_health FROM character_stats WHERE character_id = char_attacked_id;
+    SELECT health FROM character_stats WHERE character_id = char_attacked_id INTO char_health;
     
     
     -- item damage and attack damage - character armor
-    SELECT i.damage INTO attack_damage
+    SELECT i.damage
         FROM items i
 	    INNER JOIN equipped eq
-		ON eq.item_id = i.item_id
-    WHERE eq.equipped_id = id_item_equipped;
+	        ON eq.item_id = i.item_id
+    WHERE eq.equipped_id = id_item_equipped INTO attack_damage;
 
     SET difference = attack_damage - char_armor;
     SET new_char_health = char_health - difference;
