@@ -194,10 +194,10 @@ DELIMITER ;;
 CREATE PROCEDURE attack(IN char_attacked_id INT UNSIGNED, IN id_item_equipped INT UNSIGNED)
 BEGIN
     	DECLARE char_armor INT SIGNED;
-    DECLARE char_health INT SIGNED;
+    DECLARE char_health INT UNSIGNED;
 	DECLARE attack_damage INT SIGNED;
     DECLARE difference INT;
-    DECLARE new_char_health INT;
+    DECLARE new_char_health INT UNSIGNED;
     
 	-- character armor 
     SELECT armor_total(char_attacked_id) INTO char_armor;
