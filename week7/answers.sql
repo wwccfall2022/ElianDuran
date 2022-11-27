@@ -196,7 +196,7 @@ BEGIN
     	DECLARE char_armor INT SIGNED;
     DECLARE char_health INT UNSIGNED;
 	DECLARE attack_damage INT SIGNED;
-    DECLARE difference INT;
+    DECLARE difference INT UNSIGNED;
     DECLARE new_char_health INT UNSIGNED;
     
 	-- character armor 
