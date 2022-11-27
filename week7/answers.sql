@@ -208,8 +208,8 @@ BEGIN
     
     -- item damage and attack damage - character armor
     SELECT i.damage INTO attack_damage
-        FROM equipped eq
-	    INNER JOIN items i
+        FROM items i
+	    INNER JOIN equipped eq
 		ON eq.item_id = i.item_id
     WHERE eq.equipped_id = id_item_equipped;
 
