@@ -270,3 +270,40 @@ BEGIN
 
 END;;
 DELIMITER ;
+
+
+DELIMITER ;;
+CREATE PROCEDURE set_winners(IN team_win_id INT UNSIGNED)
+BEGIN
+    DECLARE team_win INT UNSIGNED;
+    DECLARE char_id INT UNSIGNED;
+    DECLARE char_name VARCHAR(30);
+    DECLARE row_not_found TINYINT DEFAULT FALSE;
+    
+    DECLARE team_win_cursor CURSOR FOR
+        SELECT c.character_id, c.name
+	    FROM team_members t
+	        INNER JOIN characters c
+		    ON t.character_id = c.character_id
+        WHERE t.team_id = team_win_id;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND
+        SET row_not_found = TRUE;
+
+    DELETE FROM winners;
+    
+    OPEN team_win_cursor;
+    char_loop: LOOP
+    
+        FETCH team_win_cursor INTO char_id, char_name;
+            IF row_not_found THEN
+	        LEAVE char_loop;
+	    END IF;
+        
+        INSERT INTO winners(character_id, name)
+	    VALUES(char_id, char_name);
+            
+    END LOOP;
+    CLOSE team_win_cursor;
+END;;
+DELIMITER ;
